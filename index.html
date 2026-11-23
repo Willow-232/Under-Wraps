@@ -151,6 +151,7 @@ const COLS=['#9b1b30','#b86e12','#2f6b5a','#3d5a9e','#7f4596','#b0473a','#1d7381
 const col=id=>{let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))|0;return COLS[Math.abs(h)%COLS.length]};
 const TAG='<svg class="hdrtag" viewBox="0 0 180 180" aria-hidden="true"><path d="M56 100C40 72 30 52 18 30" fill="none" style="stroke:var(--tagc)" stroke-width="4" stroke-linecap="round"/><path d="M64 52H140A12 12 0 0 1 152 64V136A12 12 0 0 1 140 148H64L32 100Z" style="fill:var(--tagc)"/><circle cx="58" cy="100" r="8" style="fill:var(--hdr)"/><text x="109" y="92" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Under</text><text x="109" y="128" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Wraps</text><path d="M80 103H138" stroke="#e2ac3a" stroke-width="3" stroke-linecap="round"/></svg>';
 const HEAD=(inner,welcome)=>`<header class="top${welcome?' welcome':''}">${TAG}${inner}</header>`;
+const APP_VERSION='v4 (wishes + gold)';
 const APP_LINK=location.origin+location.pathname.replace(/index\.html$/,'');
 
 const IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||/[?&]glass\b/.test(location.search);
@@ -340,7 +341,8 @@ function settingsSheet(){
     return `<div class="prow"><span class="dot" style="background:${col(p.id)}"></span><span class="pn">${esc(p.name)}<small>${mp?'You':p.claimed_by?'Phone linked':'No phone'}</small></span>${!p.claimed_by&&!n?`<button class="btn ghost sm" data-act="rmperson" data-v="${p.id}">Remove</button>`:''}</div>`}).join('')}</div>
   <h3>Leave this family</h3><p class="muted">Takes it off your list. The gift list stays for everyone else, and you can rejoin with the code.</p>
   <button class="btn danger" data-act="leave">Leave ${esc(f.name)}</button>
-  <h3>Account</h3><p class="muted">Signed in as ${esc(S.email)}</p><button class="btn ghost" data-act="signout">Sign out</button>`;
+  <h3>Account</h3><p class="muted">Signed in as ${esc(S.email)}</p><button class="btn ghost" data-act="signout">Sign out</button>
+  <p class="muted" style="margin-top:18px">Under Wraps ${APP_VERSION}${IOS?' · glass on':''}</p>`;
 }
 const famsSheet=()=>`<h2>Your families</h2><div class="plist">${S.families.map(f=>`<button class="prow pickf${f.id===S.famId?' on':''}" data-act="switch" data-v="${esc(f.id)}"><span class="pn">${esc(f.name)}</span>${f.id===S.famId?'<span aria-label="current">✓</span>':''}</button>`).join('')}</div>${startForms()}`;
 
@@ -525,7 +527,7 @@ else{
     },0);
   });
 }
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));
 }
 </script>
 </body></html>
