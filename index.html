@@ -92,11 +92,11 @@ textarea{resize:vertical}
 .fab{position:fixed;right:max(16px,calc((100% - 720px)/2 + 16px));bottom:calc(18px + env(safe-area-inset-bottom));min-height:54px;padding:0 22px;border-radius:999px;border:0;background:var(--btn);color:#fff;font-weight:700;font-size:16px;box-shadow:0 8px 22px rgba(60,10,20,.3);cursor:pointer;z-index:5}
 .sheet-wrap{position:fixed;inset:0;z-index:10;display:flex;align-items:flex-end;justify-content:center}.sheet-wrap[hidden]{display:none}
 .scrim{position:absolute;inset:0;background:rgba(20,5,10,.55)}
-.sheet{position:relative;width:min(100%,560px);max-height:92vh;overflow:auto;background:var(--bg);border-radius:22px 22px 0 0;padding:22px 18px calc(24px + env(safe-area-inset-bottom));animation:up .22s ease-out}
+.sheet{position:relative;width:min(100%,560px);max-height:calc(100vh - env(safe-area-inset-top) - 28px);max-height:calc(100dvh - env(safe-area-inset-top) - 28px);overflow:auto;overscroll-behavior:contain;background:var(--bg);border-radius:22px 22px 0 0;padding:28px 20px calc(24px + env(safe-area-inset-bottom));animation:up .22s ease-out}
 @media(min-width:700px){.sheet-wrap{align-items:center}.sheet{border-radius:22px}}
 @keyframes up{from{transform:translateY(30px);opacity:0}}
-.x{position:absolute;top:10px;right:10px;width:44px;height:44px;border:0;background:none;font-size:28px;cursor:pointer;color:var(--mut)}
-.sheet h2{margin:0 44px 14px 0}.sheet .card{background:var(--bg)}
+.x{position:absolute;top:14px;right:12px;width:44px;height:44px;border:0;background:none;font-size:28px;cursor:pointer;color:var(--mut)}
+.sheet h2{margin:0 48px 18px 0}.sheet .card{background:var(--bg)}
 .acts{display:flex;gap:10px}.acts .btn:last-child{flex:1}
 .codebox{display:flex;align-items:center;gap:12px;background:var(--surf);border-radius:14px;padding:12px 14px;flex-wrap:wrap}
 .codebox span{font-size:28px;font-weight:700;letter-spacing:.14em;flex:1}
@@ -151,7 +151,7 @@ const COLS=['#9b1b30','#b86e12','#2f6b5a','#3d5a9e','#7f4596','#b0473a','#1d7381
 const col=id=>{let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))|0;return COLS[Math.abs(h)%COLS.length]};
 const TAG='<svg class="hdrtag" viewBox="0 0 180 180" aria-hidden="true"><path d="M56 100C40 72 30 52 18 30" fill="none" style="stroke:var(--tagc)" stroke-width="4" stroke-linecap="round"/><path d="M64 52H140A12 12 0 0 1 152 64V136A12 12 0 0 1 140 148H64L32 100Z" style="fill:var(--tagc)"/><circle cx="58" cy="100" r="8" style="fill:var(--hdr)"/><text x="109" y="92" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Under</text><text x="109" y="128" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Wraps</text><path d="M80 103H138" stroke="#e2ac3a" stroke-width="3" stroke-linecap="round"/></svg>';
 const HEAD=(inner,welcome)=>`<header class="top${welcome?' welcome':''}">${TAG}${inner}</header>`;
-const APP_VERSION='v6 (always light)';
+const APP_VERSION='v7 (roomier sheets)';
 const APP_LINK=location.origin+location.pathname.replace(/index\.html$/,'');
 
 const IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||/[?&]glass\b/.test(location.search);
