@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Under Wraps</title>
 <meta name="description" content="Gift planning for families, kept under wraps.">
-<meta name="theme-color" content="#f6e3b4" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#2a1d12" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6e3b4"><meta name="color-scheme" content="light">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#150c0f);--surf:light-dark(#f7f1ee,#21141a);--line:light-dark(#eadfda,#3a252c);--ink:light-dark(#22161a,#f5eaec);--mut:light-dark(#6f5c62,#b9a3aa);--red:light-dark(#9b1b30,#6e1222);--redt:light-dark(#9b1b30,#ef7a8d);--btn:light-dark(#9b1b30,#c4334b);--gold:#e2ac3a;--hdr:light-dark(#f6e3b4,#2a1d12);--hdrink:light-dark(#5e0f1d,#f6e3b4);--tagc:light-dark(#9b1b30,#c4334b);--ok:light-dark(#2f6b5a,#6cc3a5)}
+:root{color-scheme:light;--bg:light-dark(#ffffff,#150c0f);--surf:light-dark(#f7f1ee,#21141a);--line:light-dark(#eadfda,#3a252c);--ink:light-dark(#22161a,#f5eaec);--mut:light-dark(#6f5c62,#b9a3aa);--red:light-dark(#9b1b30,#6e1222);--redt:light-dark(#9b1b30,#ef7a8d);--btn:light-dark(#9b1b30,#c4334b);--gold:#e2ac3a;--hdr:light-dark(#f6e3b4,#2a1d12);--hdrink:light-dark(#5e0f1d,#f6e3b4);--tagc:light-dark(#9b1b30,#c4334b);--ok:light-dark(#2f6b5a,#6cc3a5)}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Outfit,system-ui,sans-serif;overflow-x:clip}
 body.lock{overflow:hidden}
@@ -151,7 +151,7 @@ const COLS=['#9b1b30','#b86e12','#2f6b5a','#3d5a9e','#7f4596','#b0473a','#1d7381
 const col=id=>{let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))|0;return COLS[Math.abs(h)%COLS.length]};
 const TAG='<svg class="hdrtag" viewBox="0 0 180 180" aria-hidden="true"><path d="M56 100C40 72 30 52 18 30" fill="none" style="stroke:var(--tagc)" stroke-width="4" stroke-linecap="round"/><path d="M64 52H140A12 12 0 0 1 152 64V136A12 12 0 0 1 140 148H64L32 100Z" style="fill:var(--tagc)"/><circle cx="58" cy="100" r="8" style="fill:var(--hdr)"/><text x="109" y="92" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Under</text><text x="109" y="128" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Wraps</text><path d="M80 103H138" stroke="#e2ac3a" stroke-width="3" stroke-linecap="round"/></svg>';
 const HEAD=(inner,welcome)=>`<header class="top${welcome?' welcome':''}">${TAG}${inner}</header>`;
-const APP_VERSION='v5 (gold icon)';
+const APP_VERSION='v6 (always light)';
 const APP_LINK=location.origin+location.pathname.replace(/index\.html$/,'');
 
 const IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||/[?&]glass\b/.test(location.search);
