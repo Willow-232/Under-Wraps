@@ -112,6 +112,14 @@ textarea{resize:vertical}
 .spin{width:36px;height:36px;margin:0 auto;border-radius:50%;border:4px solid var(--line);border-top-color:var(--redt);animation:sp 1s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .card .gift{background:var(--bg)}
+.ibar{display:flex;gap:8px}
+.tour{text-align:center;padding-top:6px}
+.tour .tico{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:var(--hdr);color:var(--redt)}
+.sheet .tour h2{margin:0 0 8px}
+.tour p{margin:0 auto 18px;max-width:26em;color:var(--mut)}
+.tdots{display:flex;justify-content:center;gap:6px;margin:0 0 18px}
+.tdots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.tdots .on{background:var(--redt);width:20px;border-radius:4px}
 .card h3:first-child{margin-top:0}
 .wl{color:var(--redt);font-weight:600;text-decoration:none}
 .gmain.ro{cursor:default}
@@ -151,7 +159,7 @@ const COLS=['#9b1b30','#b86e12','#2f6b5a','#3d5a9e','#7f4596','#b0473a','#1d7381
 const col=id=>{let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))|0;return COLS[Math.abs(h)%COLS.length]};
 const TAG='<svg class="hdrtag" viewBox="0 0 180 180" aria-hidden="true"><path d="M56 100C40 72 30 52 18 30" fill="none" style="stroke:var(--tagc)" stroke-width="4" stroke-linecap="round"/><path d="M64 52H140A12 12 0 0 1 152 64V136A12 12 0 0 1 140 148H64L32 100Z" style="fill:var(--tagc)"/><circle cx="58" cy="100" r="8" style="fill:var(--hdr)"/><text x="109" y="92" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Under</text><text x="109" y="128" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Wraps</text><path d="M80 103H138" stroke="#e2ac3a" stroke-width="3" stroke-linecap="round"/></svg>';
 const HEAD=(inner,welcome)=>`<header class="top${welcome?' welcome':''}">${TAG}${inner}</header>`;
-const APP_VERSION='v7 (roomier sheets)';
+const APP_VERSION='1.8'; // day.update — day 1 = 23 Nov 2026
 const APP_LINK=location.origin+location.pathname.replace(/index\.html$/,'');
 
 const IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||/[?&]glass\b/.test(location.search);
@@ -204,12 +212,13 @@ function render(){
   const bud=others.reduce((a,p)=>a+(+p.budget||0),0),sp=spent(vis);
   const view=S.tab==='people'?(S.person?personView():peopleView()):S.tab==='gifts'?giftsView():S.tab==='wishes'?wishesView():budgetView();
   app.innerHTML=`${HEAD(`<div class="bar"><button class="fam" data-act="fams" aria-label="Switch family"><span>${esc(S.fam.name)}</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
-    <button class="icon" data-act="settings" aria-label="Family settings and invite"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 19c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M17 7v6M14 10h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+    <div class="ibar"><button class="icon" data-act="invite" aria-label="Invite family"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 19c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M17 7v6M14 10h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><button class="icon" data-act="settings" aria-label="Settings"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="6.6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></div></div>
     <h1>${esc(S.fam.occasion||'Under Wraps')}</h1>
     ${m?`<div class="sum"><b>${money(sp)}</b> spent${bud?` of ${money(bud)} budgeted`:''}</div>${meter(sp,bud)}`:''}`)}
   ${m?`<nav class="tabs">${['people','gifts','wishes','budget'].map(t=>`<button data-act="tab" data-v="${t}" class="${S.tab===t?'on':''}">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</nav>
   <main class="pad">${view}</main><button class="fab" data-act="newgift" aria-label="Log a gift">+ Log a gift</button>`:`<main class="pad">${claimView()}</main>`}`;
   if(S.tab==='gifts'&&m)renderGiftList();
+  if(m)maybeTour();
   if(act){const el=document.getElementById(act);if(el&&el.focus){el.focus();if(el.type==='search'){const n=el.value.length;el.setSelectionRange(n,n)}}}
 }
 
@@ -331,18 +340,48 @@ const startForms=()=>`<section class="card"><h2>Start a family</h2><form data-fo
 
 function settingsSheet(){
   const f=S.fam;
-  return `<h2>Family settings</h2>
+  return `<h2>Settings</h2>
+  <h3>Family</h3>
   <form data-form="famedit" class="stackf"><label>Family name<input name="name" required maxlength="40" value="${esc(f.name)}"></label><label>Occasion<input name="occasion" maxlength="40" value="${esc(f.occasion||'')}"></label><button class="btn">Save</button></form>
-  <h3>Add someone's phone</h3>
-  <div class="codebox"><span>${esc(f.code)}</span><button class="btn ghost" data-act="copy" data-v="${esc(f.code)}">Copy code</button></div>
-  <ol class="steps"><li>Send them the app link: <button class="link" data-act="copy" data-v="${esc(APP_LINK)}">copy link</button></li><li>They open it on their phone and create their own account.</li><li>They tap <b>Join a family</b>, type the code above and pick their name.</li></ol>
-  <p class="muted">Your own tablet or laptop needs nothing extra: sign in with the same email and it's all there.</p>
   <h3>People</h3><div class="plist">${S.people.map(p=>{const n=S.gifts.filter(g=>g.recipient===p.id).length,mp=p.claimed_by===uid;
     return `<div class="prow"><span class="dot" style="background:${col(p.id)}"></span><span class="pn">${esc(p.name)}<small>${mp?'You':p.claimed_by?'Phone linked':'No phone'}</small></span>${!p.claimed_by&&!n?`<button class="btn ghost sm" data-act="rmperson" data-v="${p.id}">Remove</button>`:''}</div>`}).join('')}</div>
   <h3>Leave this family</h3><p class="muted">Takes it off your list. The gift list stays for everyone else, and you can rejoin with the code.</p>
   <button class="btn danger" data-act="leave">Leave ${esc(f.name)}</button>
+  <h3>Help</h3><button class="btn ghost" data-act="tour" data-v="0">Show the welcome tour</button>
   <h3>Account</h3><p class="muted">Signed in as ${esc(S.email)}</p><button class="btn ghost" data-act="signout">Sign out</button>
-  <p class="muted" style="margin-top:18px">Under Wraps ${APP_VERSION}${IOS?' · glass on':''}</p>`;
+  <p class="muted" style="margin-top:22px">Under Wraps · Version ${APP_VERSION}</p>`;
+}
+function inviteSheet(){
+  const f=S.fam;
+  return `<h2>Invite family</h2><p class="muted">Add someone's phone to <b>${esc(f.name)}</b>.</p>
+  <div class="codebox"><span>${esc(f.code)}</span><button class="btn ghost" data-act="copy" data-v="${esc(f.code)}">Copy code</button></div>
+  <ol class="steps"><li>Send them the app link: <button class="link" data-act="copy" data-v="${esc(APP_LINK)}">copy link</button></li><li>They open it on their phone and create their own account.</li><li>They tap <b>Join a family</b>, type the code above and pick their name.</li></ol>
+  <p class="muted">Your own tablet or laptop needs nothing extra: sign in with the same email and it's all there.</p>
+  <h3>Kids or anyone without a phone?</h3><p class="muted">Just add their name on the People tab. They don't need an account.</p>`;
+}
+
+// ---------- Welcome tour ----------
+const TI=d=>`<svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const TOUR=[
+  [TI('<path d="M5 9h14v11H5zM3 6h18v3H3zM12 6v14M12 6c-2-4-6-3-5 0M12 6c2-4 6-3 5 0"/>'),'Welcome to Under Wraps','Plan gifts together as a family, without spoiling any surprises. Here’s a quick look around.'],
+  [TI('<circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 5.5a3 3 0 0 1 0 5M18 14c1.6.6 2.6 2.2 3 5"/>'),'People','Everyone you’re buying for. Tap a name to see what’s been bought, set a budget, and check their wish list.'],
+  [TI('<path d="M12 5v14M5 12h14"/>'),'Log a gift','Tap the <b>+</b> button at the bottom right whenever you buy something. Gifts for you are hidden from you on every phone.'],
+  [TI('<path d="M4 7h16M4 12h16M4 17h10"/>'),'Gifts','Every gift in one list. Tap a gift’s status to move it along: idea → bought → wrapped → given.'],
+  [TI('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>'),'Wishes','Add things you’d love. Family can tap <b>I’ll get it</b> so nobody doubles up, and you’ll never see what’s been bought.'],
+  [TI('<path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/>'),'Budget','See what you’ve spent against your own limit (only you can see it), plus spending for each person.'],
+  [TI('<path d="M4 6h10M4 12h16M4 18h16"/><circle cx="18" cy="6" r="2"/>'),'Top of the screen','Tap the <b>family name</b> to switch families. Use the <b>person +</b> button to invite family, and the <b>gear</b> for settings.']
+];
+function tourSheet(i){
+  const [ico,t,txt]=TOUR[i],last=i===TOUR.length-1;
+  return `<div class="tour"><div class="tico">${ico}</div><h2>${t}</h2><p>${txt}</p>
+  <div class="tdots" aria-label="Step ${i+1} of ${TOUR.length}">${TOUR.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>
+  <div class="acts">${i?`<button class="btn ghost" data-act="tour" data-v="${i-1}">Back</button>`:`<button class="btn ghost" data-act="close">Skip</button>`}<button class="btn" data-act="${last?'close':'tour'}" data-v="${i+1}">${last?'Let’s go':'Next'}</button></div></div>`;
+}
+function maybeTour(){
+  let seen=true;try{seen=!!localStorage.getItem('uw-toured')}catch(_){}
+  if(seen||!$('#sheet').hidden)return;
+  try{localStorage.setItem('uw-toured','1')}catch(_){}
+  setTimeout(()=>{$('#toast').hidden=true;openSheet(tourSheet(0))},900);
 }
 const famsSheet=()=>`<h2>Your families</h2><div class="plist">${S.families.map(f=>`<button class="prow pickf${f.id===S.famId?' on':''}" data-act="switch" data-v="${esc(f.id)}"><span class="pn">${esc(f.name)}</span>${f.id===S.famId?'<span aria-label="current">✓</span>':''}</button>`).join('')}</div>${startForms()}`;
 
@@ -455,6 +494,8 @@ document.addEventListener('click',async e=>{
     if((await q(sb.from('wishes').delete().eq('id',v))).ok){refresh();toast('Wish removed',async()=>{if((await q(sb.from('wishes').insert(w))).ok)refresh()})}}
   else if(a==='close')closeSheet();
   else if(a==='settings')openSheet(settingsSheet());
+  else if(a==='invite')openSheet(inviteSheet());
+  else if(a==='tour')openSheet(tourSheet(+v||0));
   else if(a==='fams')openSheet(famsSheet());
   else if(a==='switch'){closeSheet();if(v!==S.famId){S.tab='people';switchFam(v)}}
   else if(a==='copy'){try{await navigator.clipboard.writeText(v);toast('Copied')}catch(_){toast(v)}}
