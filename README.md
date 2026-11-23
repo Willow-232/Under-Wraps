@@ -9,8 +9,10 @@ Under Wraps is a shared gift tracker for families. Everyone logs what they've bo
 - **Family groups:** start a family, invite others with a six-character code, and belong to as many families as you like
 - **Hidden gifts:** gifts for you are filtered out on the server, so they never reach your phone
 - **Budgets:** a budget per person, plus a personal spending limit only you can see
+- **Wish lists:** add what you'd like (with a link and rough price). Family can tap "I'll get it", and you never see what's been bought
 - **Status tracking:** idea → bought → wrapped → given
 - **Live sync:** changes show up on everyone's phones within seconds
+- **Liquid glass on iPhone and iPad:** a floating glass tab bar and glass sheets
 - **Installable:** add it to your home screen on iPhone or Android and it opens like a regular app
 
 ## Install on your phone
@@ -23,7 +25,7 @@ Open the app link in your browser, then:
 ## Run your own copy
 
 1. Fork this repository.
-2. Create a free project at [supabase.com](https://supabase.com), open the **SQL Editor**, paste in `supabase/schema.sql` and run it.
+2. Create a free project at [supabase.com](https://supabase.com), open the **SQL Editor**, and run `supabase/schema.sql`, then `supabase/002_wishlist.sql` (each in its own query).
 3. In Supabase, go to **Authentication → Sign In / Providers → Email** and turn **Confirm email** off (or set up custom SMTP).
 4. Put your project URL and publishable key in `config.js`.
 5. Turn on **GitHub Pages** (Settings → Pages → Deploy from branch → `main` / root).

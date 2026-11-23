@@ -45,7 +45,7 @@ h1{font-size:clamp(32px,7vw,46px)}h2{font-size:24px}h3{font-size:16px;margin:22p
 .tag{position:relative;display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surf);border:1px solid var(--line);border-radius:8px 18px 18px 8px;padding:14px 14px 14px 34px;cursor:pointer}
 .tag::before{content:"";position:absolute;left:12px;top:50%;width:11px;height:11px;margin-top:-5.5px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 2px var(--line)}
 .tag>div{flex:1}.tag h3{margin:0;font-size:18px}.tag p{margin:2px 0 8px;color:var(--mut);font-size:15px}
-.tag.me{border-style:dashed;cursor:default}.tag.me p{margin-bottom:0}
+.tag.me{border-style:dashed}.tag.me p{margin-bottom:0}
 .chev{font-size:28px;color:var(--mut);line-height:1}
 .avatar{width:42px;height:42px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:700;flex:none;font-size:18px}
 .list{display:grid;gap:8px;margin:14px 0}
@@ -110,6 +110,27 @@ textarea{resize:vertical}
 .empty{min-height:70vh;display:grid;place-content:center;text-align:center;padding:24px;gap:10px;max-width:520px;margin:0 auto}
 .spin{width:36px;height:36px;margin:0 auto;border-radius:50%;border:4px solid var(--line);border-top-color:var(--redt);animation:sp 1s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
+.card .gift{background:var(--bg)}
+.card h3:first-child{margin-top:0}
+.wl{color:var(--redt);font-weight:600;text-decoration:none}
+.gmain.ro{cursor:default}
+.s-get{background:var(--btn);color:#fff}
+/* ---------- Liquid glass (iPhone / iPad) ---------- */
+.ios{--glass:light-dark(rgba(255,255,255,.58),rgba(42,24,30,.55));--glass-edge:light-dark(rgba(255,255,255,.9),rgba(255,255,255,.18));--glass-shadow:0 10px 34px light-dark(rgba(80,15,30,.18),rgba(0,0,0,.5))}
+.ios .glass,.ios .tabs,.ios .sheet,.ios #toast{background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(190%);backdrop-filter:blur(22px) saturate(190%);box-shadow:inset 0 1px 0 var(--glass-edge),inset 0 0 0 1px light-dark(rgba(255,255,255,.45),rgba(255,255,255,.08)),var(--glass-shadow)}
+.ios #app{padding-bottom:calc(130px + env(safe-area-inset-bottom))}
+.ios .tabs{position:fixed;top:auto;left:14px;right:84px;bottom:calc(14px + env(safe-area-inset-bottom));max-width:440px;border:0;border-radius:999px;padding:5px;gap:2px;z-index:6}
+.ios .tabs button{min-height:48px;border:0;border-radius:999px;font-size:14px;color:var(--ink);transition:background .2s}
+.ios .tabs .on{color:var(--redt);background:light-dark(rgba(155,27,48,.12),rgba(239,122,141,.18))}
+.ios .fab{right:14px;bottom:calc(14px + env(safe-area-inset-bottom));width:58px;height:58px;min-height:0;padding:0;font-size:0;border-radius:50%;background:color-mix(in srgb,var(--gold) 82%,transparent);-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -2px 6px rgba(120,70,0,.25),0 10px 28px rgba(80,15,30,.3)}
+.ios .fab::before{content:"+";font-size:32px;line-height:1;font-weight:500}
+.ios .fam,.ios .icon{background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 0 0 1px rgba(255,255,255,.15)}
+.ios .scrim{background:rgba(20,5,10,.28)}
+.ios .sheet{border-radius:30px;margin:0 8px calc(8px + env(safe-area-inset-bottom));width:min(calc(100% - 16px),560px);padding-bottom:24px}
+.ios .sheet .card,.ios .sheet input,.ios .sheet select,.ios .sheet textarea,.ios .sheet .codebox,.ios .sheet .prow{background:light-dark(rgba(255,255,255,.6),rgba(255,255,255,.06))}
+.ios #toast{color:var(--ink);bottom:calc(86px + env(safe-area-inset-bottom))}
+.ios .btn,.ios input,.ios select,.ios textarea{border-radius:14px}
+.ios .tag,.ios .gift,.ios .card{box-shadow:inset 0 1px 0 light-dark(rgba(255,255,255,.9),rgba(255,255,255,.05))}
 @media(max-width:380px){.two{grid-template-columns:minmax(0,1fr)}.ribbon{right:70px}.bow{right:44px}}
 @media(prefers-reduced-motion:reduce){.meter i{transition:none}.sheet{animation:none}.spin{animation-duration:3s}}
 </style></head><body>
@@ -131,10 +152,12 @@ const BOW='<svg class="bow" viewBox="0 0 80 50" aria-hidden="true"><path d="M40 
 const HEAD=inner=>`<header class="top"><div class="ribbon"></div>${BOW}${inner}</header>`;
 const APP_LINK=location.origin+location.pathname.replace(/index\.html$/,'');
 
+const IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||/[?&]glass\b/.test(location.search);
+if(IOS)document.documentElement.classList.add('ios');
 const cfg=window.UNDER_WRAPS||{};
 const configured=!!(cfg.SUPABASE_URL&&cfg.SUPABASE_KEY&&!/YOUR-PROJECT|PASTE_YOUR/.test(cfg.SUPABASE_URL+cfg.SUPABASE_KEY));
 let sb=null,uid=null,chan=null,rt=null;
-const S={loading:true,err:'',email:'',authMode:'in',families:[],famId:null,fam:null,famLoaded:false,people:[],gifts:[],myLimit:0,tab:'people',person:null,q:'',status:'all'};
+const S={loading:true,err:'',email:'',authMode:'in',families:[],famId:null,fam:null,famLoaded:false,people:[],gifts:[],wishes:[],myLimit:0,tab:'people',person:null,q:'',status:'all'};
 
 const mine=()=>S.people.filter(p=>p.claimed_by===uid).map(p=>p.id);
 const me=()=>S.people.find(p=>p.claimed_by===uid);
@@ -177,13 +200,13 @@ function render(){
     app.innerHTML=`${HEAD('<h1>Under Wraps</h1><p class="lede">Gift planning for families, kept under wraps.</p>')}<main class="pad">${startForms()}<p class="muted">Signed in as ${esc(S.email)} · <button class="link" data-act="signout">Sign out</button></p></main>`;return}
   const m=me(),vis=visible(),others=S.people.filter(p=>p.claimed_by!==uid);
   const bud=others.reduce((a,p)=>a+(+p.budget||0),0),sp=spent(vis);
-  const view=S.tab==='people'?(S.person?personView():peopleView()):S.tab==='gifts'?giftsView():budgetView();
+  const view=S.tab==='people'?(S.person?personView():peopleView()):S.tab==='gifts'?giftsView():S.tab==='wishes'?wishesView():budgetView();
   app.innerHTML=`${HEAD(`<div class="bar"><button class="fam" data-act="fams" aria-label="Switch family"><span>${esc(S.fam.name)}</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
     <button class="icon" data-act="settings" aria-label="Family settings and invite"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 19c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M17 7v6M14 10h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
     <h1>${esc(S.fam.occasion||'Under Wraps')}</h1>
     ${m?`<div class="sum"><b>${money(sp)}</b> spent${bud?` of ${money(bud)} budgeted`:''}</div>${meter(sp,bud)}`:''}`)}
-  ${m?`<nav class="tabs">${['people','gifts','budget'].map(t=>`<button data-act="tab" data-v="${t}" class="${S.tab===t?'on':''}">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</nav>
-  <main class="pad">${view}</main><button class="fab" data-act="newgift">+ Log a gift</button>`:`<main class="pad">${claimView()}</main>`}`;
+  ${m?`<nav class="tabs">${['people','gifts','wishes','budget'].map(t=>`<button data-act="tab" data-v="${t}" class="${S.tab===t?'on':''}">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</nav>
+  <main class="pad">${view}</main><button class="fab" data-act="newgift" aria-label="Log a gift">+ Log a gift</button>`:`<main class="pad">${claimView()}</main>`}`;
   if(S.tab==='gifts'&&m)renderGiftList();
   if(act){const el=document.getElementById(act);if(el&&el.focus){el.focus();if(el.type==='search'){const n=el.value.length;el.setSelectionRange(n,n)}}}
 }
@@ -202,7 +225,7 @@ function authView(){
 
 function peopleView(){
   return `<div class="tags">${S.people.map(p=>{
-    if(p.claimed_by===uid)return `<div class="tag me">${avatar(p)}<div><h3>${esc(p.name)}</h3><p>That's you. Anything logged for you stays hidden on your phones.</p></div></div>`;
+    if(p.claimed_by===uid){const n=S.wishes.filter(w=>w.person===p.id).length;return `<button class="tag me" data-act="tab" data-v="wishes">${avatar(p)}<div><h3>${esc(p.name)}</h3><p>That's you. Gifts for you stay hidden. ${n?`${n} thing${n===1?'':'s'} on your wish list.`:'Tap to start your wish list.'}</p></div><span class="chev" aria-hidden="true">›</span></button>`}
     const gs=S.gifts.filter(g=>g.recipient===p.id),s=spent(gs);
     return `<button class="tag" data-act="person" data-v="${p.id}">${avatar(p)}<div><h3>${esc(p.name)}</h3><p>${gs.length} gift${gs.length===1?'':'s'} · <b>${money(s)}</b>${+p.budget?` of ${money(p.budget)}`:''}</p>${meter(s,+p.budget)}</div><span class="chev" aria-hidden="true">›</span></button>`}).join('')}</div>
   <form class="row" data-form="addperson"><input name="name" placeholder="Add a family member" required maxlength="40" aria-label="New family member's name"><button class="btn">Add</button></form>
@@ -218,8 +241,9 @@ function personView(){
   <div class="stats"><div><span>Spent</span><b>${money(s)}</b></div><div><span>Ideas</span><b>${money(planned(gs))}</b></div><div><span>${b&&s>b?'Over':'Left'}</span><b>${b?money(Math.abs(b-s)):'–'}</b></div></div>
   ${meter(s,b)}
   <form class="row" data-form="budget" data-v="${p.id}"><label for="bud">Budget for ${esc(p.name)}</label><div class="money"><span>$</span><input id="bud" name="budget" type="number" inputmode="decimal" min="0" step="1" value="${b||''}" placeholder="0"></div><button class="btn ghost">Save</button></form>
-  <div class="list">${gs.length?gs.map(giftRow).join(''):`<p class="none">Nothing logged for ${esc(p.name)} yet.</p>`}</div>
-  <button class="btn wide" data-act="newgift" data-v="${p.id}">+ Gift for ${esc(p.name)}</button>`;
+  <h3>Gifts</h3><div class="list">${gs.length?gs.map(giftRow).join(''):`<p class="none">Nothing logged for ${esc(p.name)} yet.</p>`}</div>
+  <button class="btn wide" data-act="newgift" data-v="${p.id}">+ Gift for ${esc(p.name)}</button>
+  <h3>${esc(p.name)}'s wish list</h3>${wishList(p)}`;
 }
 
 function giftRow(g){
@@ -237,6 +261,41 @@ function renderGiftList(){
   const qq=S.q.trim().toLowerCase(),all=visible();
   const gs=all.filter(g=>(S.status==='all'||g.status===S.status)&&(!qq||[g.title,g.store,g.notes,pname(g.recipient),pname(g.buyer)].join(' ').toLowerCase().includes(qq))).sort(byDate);
   el.innerHTML=gs.length?gs.map(giftRow).join(''):`<p class="none">${all.length?'No gifts match.':'No gifts logged yet. Tap “Log a gift” to add the first one.'}</p>`;
+}
+
+// ---------- Wish lists ----------
+const canWish=pid=>{const p=S.people.find(x=>x.id===pid);return !!p&&(p.claimed_by===uid||!p.claimed_by)};
+const safeLink=u=>/^https?:\/\/[^\s]+$/i.test(u||'')?u:'';
+const hostOf=u=>{try{return new URL(u).hostname.replace(/^www\./,'')}catch(_){return ''}};
+function wishRow(w){
+  const mineW=mine().includes(w.person),edit=canWish(w.person),link=safeLink(w.link),host=hostOf(link);
+  const got=mineW?null:S.gifts.find(g=>g.wish_id===w.id);
+  const gotBy=got?(got.buyer?(mine().includes(got.buyer)?'you':pname(got.buyer)):'someone'):'';
+  const info=`<span class="gt"><b>${esc(w.title)}</b><small>${[w.notes?esc(w.notes):'',host?`<a class="wl" href="${esc(link)}" target="_blank" rel="noopener noreferrer">${esc(host)} ↗</a>`:''].filter(Boolean).join(' · ')||'&nbsp;'}</small></span>${+w.price?`<span class="price">${money(w.price)}</span>`:''}`;
+  const main=edit?`<button class="gmain" data-act="editwish" data-v="${w.id}">${info}</button>`:`<div class="gmain ro">${info}</div>`;
+  const right=mineW?'':got?`<span class="pill s-given" style="display:grid;place-items:center">Got · ${esc(gotBy)}</span>`:`<button class="pill s-get" data-act="getwish" data-v="${w.id}">I'll get it</button>`;
+  return `<div class="gift">${main}${right}</div>`;
+}
+function wishList(p){
+  const ws=S.wishes.filter(w=>w.person===p.id),own=p.claimed_by===uid;
+  return `<div class="list">${ws.length?ws.map(wishRow).join(''):`<p class="none">${own?'Nothing on your list yet.':`${esc(p.name)} hasn't added any wishes yet.`}</p>`}</div>
+  ${canWish(p.id)?`<button class="btn ghost wide" data-act="newwish" data-v="${p.id}">+ Add a wish${own?'':' for '+esc(p.name)}</button>`:''}`;
+}
+function wishesView(){
+  const m=me(),others=S.people.filter(p=>p.claimed_by!==uid);
+  return `<section class="card"><h2>Your wish list</h2><p class="muted">Everyone in ${esc(S.fam.name)} can see this. You'll never see what's been bought.</p>${m?wishList(m):''}</section>
+  ${others.map(p=>`<section class="card"><h3>${esc(p.name)}</h3>${wishList(p)}</section>`).join('')}
+  <p class="muted">Tap “I'll get it” to log the gift. It's marked as got for everyone except the person who wished for it.</p>`;
+}
+function wishSheet(w,pid){
+  w=w||{title:'',link:'',price:'',notes:'',person:pid};
+  const own=mine().includes(w.person);
+  return `<h2>${w.id?'Edit wish':own?'Add to your wish list':'Add a wish for '+esc(pname(w.person))}</h2><form data-form="wish" data-v="${w.id||''}" data-p="${esc(w.person)}" class="stackf">
+  <label>What is it?<input name="title" required maxlength="80" value="${esc(w.title)}" placeholder="Book, headphones, experience…"></label>
+  <label>Link (optional)<input name="link" maxlength="500" inputmode="url" autocapitalize="off" value="${esc(w.link)}" placeholder="Paste a shop link"></label>
+  <div class="two"><label>Rough price<div class="money"><span>$</span><input name="price" type="number" inputmode="decimal" min="0" step="0.01" value="${+w.price?esc(w.price):''}" placeholder="0"></div></label><span></span></div>
+  <label>Notes<textarea name="notes" rows="2" maxlength="300" placeholder="Size, colour, any brand is fine…">${esc(w.notes)}</textarea></label>
+  <div class="acts">${w.id?`<button type="button" class="btn danger" data-act="delwish" data-v="${w.id}">Delete</button>`:''}<button class="btn">${w.id?'Save changes':'Add wish'}</button></div></form>`;
 }
 
 function budgetView(){
@@ -289,7 +348,7 @@ function giftSheet(g,forPid){
   if(!others.length)return `<h2>Log a gift</h2><p>First add the people you're buying for on the People tab.</p><button class="btn" data-act="close">OK</button>`;
   g=g||{title:'',recipient:forPid||others[0].id,buyer:m?m.id:'',price:'',status:'bought',store:'',notes:''};
   const opt=sel=>p=>`<option value="${p.id}"${p.id===sel?' selected':''}>${esc(p.claimed_by===uid?p.name+' (you)':p.name)}</option>`;
-  return `<h2>${g.id?'Edit gift':'Log a gift'}</h2><form data-form="gift" data-v="${g.id||''}" class="stackf">
+  return `<h2>${g.id?'Edit gift':g.wish_id?'Get this wish':'Log a gift'}</h2><form data-form="gift" data-v="${g.id||''}" class="stackf"><input type="hidden" name="wish_id" value="${esc(g.wish_id||'')}">
   <label>What is it?<input name="title" required maxlength="80" value="${esc(g.title)}" placeholder="Board game, PJs, voucher…"></label>
   <div class="two"><label>For<select name="recipient">${others.map(opt(g.recipient)).join('')}</select></label><label>Bought by<select name="buyer"><option value="">Not set</option>${S.people.map(opt(g.buyer)).join('')}</select></label></div>
   <div class="two"><label>Price<div class="money"><span>$</span><input name="price" type="number" inputmode="decimal" min="0" step="0.01" value="${g.price===''?'':esc(g.price)}" placeholder="0"></div></label>
@@ -319,15 +378,17 @@ async function loadFamilies(prefer){
 
 async function refresh(){
   const fid=S.famId;if(!fid)return;
-  const [f,p,g,l]=await Promise.all([
+  const [f,p,g,l,w]=await Promise.all([
     q(sb.from('families').select('*').eq('id',fid).maybeSingle(),true),
     q(sb.from('people').select('*').eq('family_id',fid).order('created_at'),true),
     q(sb.from('gifts').select('*').eq('family_id',fid),true),
-    q(sb.from('limits').select('amount').eq('family_id',fid).maybeSingle(),true)]);
+    q(sb.from('limits').select('amount').eq('family_id',fid).maybeSingle(),true),
+    q(sb.from('wishes').select('*').eq('family_id',fid).order('created_at'),true)]);
   if(fid!==S.famId)return;
   S.fam=f.ok?f.data:null;
   if(p.ok)S.people=p.data;
   if(g.ok)S.gifts=g.data;
+  S.wishes=w.ok?w.data:[];
   S.myLimit=l.ok&&l.data?+l.data.amount:0;
   S.famLoaded=true;
   const nm=S.families.find(x=>x.id===fid);if(nm&&S.fam)nm.name=S.fam.name;
@@ -337,14 +398,14 @@ const soon=()=>{clearTimeout(rt);rt=setTimeout(refresh,250)};
 
 async function switchFam(fid){
   if(chan){sb.removeChannel(chan);chan=null}
-  Object.assign(S,{famId:fid,fam:null,people:[],gifts:[],myLimit:0,person:null,famLoaded:!fid});
+  Object.assign(S,{famId:fid,fam:null,people:[],gifts:[],wishes:[],myLimit:0,person:null,famLoaded:!fid});
   if(!fid){render();return}
   try{localStorage.setItem('uw-fam',fid)}catch(_){}
   render();
   const on=(c,table,event,filter)=>c.on('postgres_changes',filter?{event,schema:'public',table,filter}:{event,schema:'public',table},soon);
   let c=sb.channel('fam-'+fid);
   c=on(c,'families','UPDATE','id=eq.'+fid);
-  for(const t of ['people','gifts']){c=on(c,t,'INSERT','family_id=eq.'+fid);c=on(c,t,'UPDATE','family_id=eq.'+fid);c=on(c,t,'DELETE')}
+  for(const t of ['people','gifts','wishes']){c=on(c,t,'INSERT','family_id=eq.'+fid);c=on(c,t,'UPDATE','family_id=eq.'+fid);c=on(c,t,'DELETE')}
   chan=c.subscribe();
   await refresh();
 }
@@ -383,6 +444,12 @@ document.addEventListener('click',async e=>{
   else if(a==='cycle'){const g=S.gifts.find(x=>x.id===v);if(!g)return;const i=STAT.findIndex(s=>s[0]===g.status);
     g.status=STAT[(i+1)%STAT.length][0];render();
     await q(sb.from('gifts').update({status:g.status,updated_at:new Date().toISOString()}).eq('id',v));soon()}
+  else if(a==='newwish')openSheet(wishSheet(null,v));
+  else if(a==='editwish'){const w=S.wishes.find(x=>x.id===v);if(w)openSheet(wishSheet(w))}
+  else if(a==='getwish'){const w=S.wishes.find(x=>x.id===v);if(!w)return;const m=me();
+    openSheet(giftSheet({title:w.title,recipient:w.person,buyer:m?m.id:'',price:+w.price?w.price:'',status:'bought',store:hostOf(safeLink(w.link)),notes:w.notes||'',wish_id:w.id}))}
+  else if(a==='delwish'){const w=S.wishes.find(x=>x.id===v);if(!w)return;closeSheet();
+    if((await q(sb.from('wishes').delete().eq('id',v))).ok){refresh();toast('Wish removed',async()=>{if((await q(sb.from('wishes').insert(w))).ok)refresh()})}}
   else if(a==='close')closeSheet();
   else if(a==='settings')openSheet(settingsSheet());
   else if(a==='fams')openSheet(famsSheet());
@@ -410,6 +477,13 @@ document.addEventListener('submit',async e=>{
       else{const r=await q(sb.auth.signUp({email,password,options:{emailRedirectTo:APP_LINK}}));
         if(r.ok&&!r.data.session)toast('Check your email to confirm your account, then sign in.')}
     }
+    else if(k==='wish'){
+      const title=(d.title||'').trim();if(!title)return;
+      let link=(d.link||'').trim();if(link&&!/^https?:\/\//i.test(link))link='https://'+link;
+      const data={title,link,price:Math.max(0,Math.round((parseFloat(d.price)||0)*100)/100),notes:(d.notes||'').trim()};
+      const r=v?await q(sb.from('wishes').update(data).eq('id',v)):await q(sb.from('wishes').insert({...data,family_id:S.famId,person:f.dataset.p}));
+      if(r.ok){closeSheet();toast(v?'Wish updated':'Added to the wish list');refresh()}
+    }
     else if(k==='create')await createFamily(d);
     else if(k==='join')await join(d.code);
     else if(k==='addperson'||k==='addme'){
@@ -425,7 +499,7 @@ document.addEventListener('submit',async e=>{
     else if(k==='gift'){
       const title=(d.title||'').trim();if(!title)return;
       if(mine().includes(d.recipient)){toast("You can't log a gift for yourself.");return}
-      const data={title,recipient:d.recipient,buyer:d.buyer||null,price:Math.max(0,Math.round((parseFloat(d.price)||0)*100)/100),status:d.status,store:(d.store||'').trim(),notes:(d.notes||'').trim(),updated_at:new Date().toISOString()};
+      const data={title,recipient:d.recipient,...(d.wish_id?{wish_id:d.wish_id}:{}),buyer:d.buyer||null,price:Math.max(0,Math.round((parseFloat(d.price)||0)*100)/100),status:d.status,store:(d.store||'').trim(),notes:(d.notes||'').trim(),updated_at:new Date().toISOString()};
       const r=v?await q(sb.from('gifts').update(data).eq('id',v)):await q(sb.from('gifts').insert({...data,family_id:S.famId}));
       if(r.ok){closeSheet();toast(v?'Gift updated':'Gift logged for '+pname(d.recipient));refresh()}
     }
@@ -446,7 +520,7 @@ else{
       if(id===uid&&!S.loading)return;
       uid=id;S.loading=false;S.err='';
       if(uid){S.loading=true;render();await loadFamilies(null);S.loading=false;render()}
-      else{if(chan){sb.removeChannel(chan);chan=null}Object.assign(S,{families:[],famId:null,fam:null,famLoaded:false,people:[],gifts:[],person:null,tab:'people'});render()}
+      else{if(chan){sb.removeChannel(chan);chan=null}Object.assign(S,{families:[],famId:null,fam:null,famLoaded:false,people:[],gifts:[],wishes:[],person:null,tab:'people'});render()}
     },0);
   });
 }
