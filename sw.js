@@ -1,6 +1,6 @@
 // Under Wraps service worker: lets the app install to a home screen and open quickly.
 // Always tries the network first so updates show up straight away.
-const CACHE = 'under-wraps-v2';
+const CACHE = 'under-wraps-v3';
 const SHELL = ['./', './index.html', './config.js', './manifest.webmanifest', './icons/icon-192.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL))); self.skipWaiting(); });
 self.addEventListener('activate', e => {

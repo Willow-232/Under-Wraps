@@ -2,18 +2,18 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Under Wraps</title>
 <meta name="description" content="Gift planning for families, kept under wraps.">
-<meta name="theme-color" content="#9b1b30">
+<meta name="theme-color" content="#f6e3b4" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#2a1d12" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Under Wraps">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#150c0f);--surf:light-dark(#f7f1ee,#21141a);--line:light-dark(#eadfda,#3a252c);--ink:light-dark(#22161a,#f5eaec);--mut:light-dark(#6f5c62,#b9a3aa);--red:light-dark(#9b1b30,#6e1222);--redt:light-dark(#9b1b30,#ef7a8d);--btn:light-dark(#9b1b30,#c4334b);--gold:#e2ac3a;--ok:light-dark(#2f6b5a,#6cc3a5)}
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#150c0f);--surf:light-dark(#f7f1ee,#21141a);--line:light-dark(#eadfda,#3a252c);--ink:light-dark(#22161a,#f5eaec);--mut:light-dark(#6f5c62,#b9a3aa);--red:light-dark(#9b1b30,#6e1222);--redt:light-dark(#9b1b30,#ef7a8d);--btn:light-dark(#9b1b30,#c4334b);--gold:#e2ac3a;--hdr:light-dark(#f6e3b4,#2a1d12);--hdrink:light-dark(#5e0f1d,#f6e3b4);--tagc:light-dark(#9b1b30,#c4334b);--ok:light-dark(#2f6b5a,#6cc3a5)}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Outfit,system-ui,sans-serif;overflow-x:clip}
 body.lock{overflow:hidden}
@@ -22,20 +22,21 @@ button,input,select,textarea{font:inherit;color:inherit}
 h1,h2{font-family:'DM Serif Display',Georgia,serif;font-weight:400;line-height:1.05;margin:0;text-wrap:balance}
 h1{font-size:clamp(32px,7vw,46px)}h2{font-size:24px}h3{font-size:16px;margin:22px 0 8px}
 #app{padding-bottom:120px}
-.top{position:relative;background:var(--red);color:#fff;padding:calc(16px + env(safe-area-inset-top)) max(18px,calc((100% - 680px)/2)) 22px;overflow:hidden}
-.ribbon{position:absolute;top:0;bottom:0;right:90px;width:28px;background:linear-gradient(90deg,#b97f17,var(--gold) 35%,#f4d58a 50%,var(--gold) 65%,#b97f17)}
-.bow{position:absolute;top:calc(-6px + env(safe-area-inset-top));right:64px;width:80px}
-.top>*:not(.ribbon):not(.bow){position:relative;z-index:1}
+.top{position:relative;background:var(--hdr);color:var(--hdrink);min-height:176px;padding:calc(16px + env(safe-area-inset-top)) max(18px,calc((100% - 680px)/2)) 22px;overflow:hidden}
+.hdrtag{position:absolute;right:max(8px,calc((100% - 720px)/2));top:calc(50px + env(safe-area-inset-top));width:clamp(100px,24vw,136px);transform:rotate(-9deg);transform-origin:30% 50%}
+.top.welcome .hdrtag{top:calc(14px + env(safe-area-inset-top))}
+.top>*:not(.hdrtag){position:relative;z-index:1}
+.top h1,.top .sum,.top .lede{padding-right:clamp(96px,24vw,150px)}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px}
-.fam{background:rgba(0,0,0,.22);border:0;color:#fff;border-radius:999px;min-height:42px;padding:0 14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;max-width:62%}
+.fam{background:color-mix(in srgb,var(--hdrink) 10%,transparent);border:0;color:var(--hdrink);border-radius:999px;min-height:42px;padding:0 14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;max-width:62%}
 .fam span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.icon{width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.22);color:#fff;display:grid;place-items:center;cursor:pointer}
+.icon{width:44px;height:44px;border-radius:50%;border:0;background:color-mix(in srgb,var(--hdrink) 10%,transparent);color:var(--hdrink);display:grid;place-items:center;cursor:pointer}
 .sum{margin-top:8px}.sum b{font-size:22px;font-variant-numeric:tabular-nums}
-.lede{max-width:30em;margin:10px 0 0;opacity:.94}
+.lede{max-width:30em;margin:10px 0 0}
 .meter{height:8px;border-radius:8px;background:var(--line);overflow:hidden}
 .meter i{display:block;height:100%;background:var(--redt);border-radius:8px;transition:width .45s ease}
 .meter.over i{background:#d2462f}
-.top .meter{background:rgba(255,255,255,.22);margin-top:10px;max-width:440px}.top .meter i{background:var(--gold)}
+.top .meter{background:color-mix(in srgb,var(--hdrink) 15%,transparent);margin-top:10px;max-width:min(440px,calc(100% - 120px))}.top .meter i{background:var(--tagc)}
 .tabs{position:sticky;top:0;z-index:4;display:flex;background:var(--bg);border-bottom:1px solid var(--line);padding-inline:max(8px,calc((100% - 700px)/2))}
 .tabs button{flex:1;min-height:50px;background:none;border:0;border-bottom:3px solid transparent;font-weight:600;color:var(--mut);cursor:pointer}
 .tabs .on{color:var(--redt);border-color:var(--redt)}
@@ -88,7 +89,7 @@ textarea{resize:vertical}
 .chips button{flex:none;min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);cursor:pointer;font-size:14px}
 .chips .on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .claim .pick{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
-.fab{position:fixed;right:max(16px,calc((100% - 720px)/2 + 16px));bottom:calc(18px + env(safe-area-inset-bottom));min-height:54px;padding:0 22px;border-radius:999px;border:0;background:var(--gold);color:#3b2600;font-weight:700;font-size:16px;box-shadow:0 8px 22px rgba(60,10,20,.3);cursor:pointer;z-index:5}
+.fab{position:fixed;right:max(16px,calc((100% - 720px)/2 + 16px));bottom:calc(18px + env(safe-area-inset-bottom));min-height:54px;padding:0 22px;border-radius:999px;border:0;background:var(--btn);color:#fff;font-weight:700;font-size:16px;box-shadow:0 8px 22px rgba(60,10,20,.3);cursor:pointer;z-index:5}
 .sheet-wrap{position:fixed;inset:0;z-index:10;display:flex;align-items:flex-end;justify-content:center}.sheet-wrap[hidden]{display:none}
 .scrim{position:absolute;inset:0;background:rgba(20,5,10,.55)}
 .sheet{position:relative;width:min(100%,560px);max-height:92vh;overflow:auto;background:var(--bg);border-radius:22px 22px 0 0;padding:22px 18px calc(24px + env(safe-area-inset-bottom));animation:up .22s ease-out}
@@ -122,16 +123,16 @@ textarea{resize:vertical}
 .ios .tabs{position:fixed;top:auto;left:14px;right:84px;bottom:calc(14px + env(safe-area-inset-bottom));max-width:440px;border:0;border-radius:999px;padding:5px;gap:2px;z-index:6}
 .ios .tabs button{min-height:48px;border:0;border-radius:999px;font-size:14px;color:var(--ink);transition:background .2s}
 .ios .tabs .on{color:var(--redt);background:light-dark(rgba(155,27,48,.12),rgba(239,122,141,.18))}
-.ios .fab{right:14px;bottom:calc(14px + env(safe-area-inset-bottom));width:58px;height:58px;min-height:0;padding:0;font-size:0;border-radius:50%;background:color-mix(in srgb,var(--gold) 82%,transparent);-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -2px 6px rgba(120,70,0,.25),0 10px 28px rgba(80,15,30,.3)}
+.ios .fab{right:14px;bottom:calc(14px + env(safe-area-inset-bottom));width:58px;height:58px;min-height:0;padding:0;font-size:0;border-radius:50%;background:color-mix(in srgb,var(--btn) 84%,transparent);color:#fff;-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 6px rgba(60,0,10,.3),0 10px 28px rgba(80,15,30,.3)}
 .ios .fab::before{content:"+";font-size:32px;line-height:1;font-weight:500}
-.ios .fam,.ios .icon{background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 0 0 1px rgba(255,255,255,.15)}
+.ios .fam,.ios .icon{background:light-dark(rgba(255,255,255,.45),rgba(255,255,255,.1));-webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);box-shadow:inset 0 1px 0 light-dark(rgba(255,255,255,.95),rgba(255,255,255,.3)),inset 0 0 0 1px light-dark(rgba(255,255,255,.6),rgba(255,255,255,.1)),0 2px 8px rgba(94,15,29,.08)}
 .ios .scrim{background:rgba(20,5,10,.28)}
 .ios .sheet{border-radius:30px;margin:0 8px calc(8px + env(safe-area-inset-bottom));width:min(calc(100% - 16px),560px);padding-bottom:24px}
 .ios .sheet .card,.ios .sheet input,.ios .sheet select,.ios .sheet textarea,.ios .sheet .codebox,.ios .sheet .prow{background:light-dark(rgba(255,255,255,.6),rgba(255,255,255,.06))}
 .ios #toast{color:var(--ink);bottom:calc(86px + env(safe-area-inset-bottom))}
 .ios .btn,.ios input,.ios select,.ios textarea{border-radius:14px}
 .ios .tag,.ios .gift,.ios .card{box-shadow:inset 0 1px 0 light-dark(rgba(255,255,255,.9),rgba(255,255,255,.05))}
-@media(max-width:380px){.two{grid-template-columns:minmax(0,1fr)}.ribbon{right:70px}.bow{right:44px}}
+@media(max-width:380px){.two{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.meter i{transition:none}.sheet{animation:none}.spin{animation-duration:3s}}
 </style></head><body>
 <div id="app"><div class="empty"><div class="spin"></div><p>Unwrapping your gift list…</p></div></div>
@@ -148,8 +149,8 @@ const STAT=[['idea','Idea'],['bought','Bought'],['wrapped','Wrapped'],['given','
 const statLabel=k=>(STAT.find(s=>s[0]===k)||STAT[0])[1];
 const COLS=['#9b1b30','#b86e12','#2f6b5a','#3d5a9e','#7f4596','#b0473a','#1d7381'];
 const col=id=>{let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))|0;return COLS[Math.abs(h)%COLS.length]};
-const BOW='<svg class="bow" viewBox="0 0 80 50" aria-hidden="true"><path d="M40 25C28 6 6 2 6 16s22 14 34 9z" fill="#e2ac3a"/><path d="M40 25C52 6 74 2 74 16S52 30 40 25z" fill="#e2ac3a"/><path d="M40 25c-8 6-14 16-16 24l7-3 9-21zM40 25c8 6 14 16 16 24l-7-3-9-21z" fill="#b97f17"/><path d="M38 23C30 11 16 8 12 15M42 23c8-12 22-15 26-8" stroke="#f6d78c" stroke-width="2" fill="none"/><circle cx="40" cy="25" r="6" fill="#f3cf7a"/></svg>';
-const HEAD=inner=>`<header class="top"><div class="ribbon"></div>${BOW}${inner}</header>`;
+const TAG='<svg class="hdrtag" viewBox="0 0 180 180" aria-hidden="true"><path d="M56 100C40 72 30 52 18 30" fill="none" style="stroke:var(--tagc)" stroke-width="4" stroke-linecap="round"/><path d="M64 52H140A12 12 0 0 1 152 64V136A12 12 0 0 1 140 148H64L32 100Z" style="fill:var(--tagc)"/><circle cx="58" cy="100" r="8" style="fill:var(--hdr)"/><text x="109" y="92" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Under</text><text x="109" y="128" text-anchor="middle" font-family="DM Serif Display,Georgia,serif" font-size="25" fill="#f6e3b4">Wraps</text><path d="M80 103H138" stroke="#e2ac3a" stroke-width="3" stroke-linecap="round"/></svg>';
+const HEAD=(inner,welcome)=>`<header class="top${welcome?' welcome':''}">${TAG}${inner}</header>`;
 const APP_LINK=location.origin+location.pathname.replace(/index\.html$/,'');
 
 const IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||/[?&]glass\b/.test(location.search);
@@ -191,13 +192,13 @@ async function q(p,quiet){
 // ---------- Views ----------
 function render(){
   const app=$('#app'),act=document.activeElement&&document.activeElement.id;
-  if(!configured){app.innerHTML=`${HEAD('<h1>Under Wraps</h1><p class="lede">Almost there.</p>')}<main class="pad"><section class="card"><h2>Connect your database</h2><p>Open <b>config.js</b> in your GitHub repository and paste in your Supabase project URL and publishable key, then commit the change. The app will load a minute or two later.</p></section></main>`;return}
+  if(!configured){app.innerHTML=`${HEAD('<h1>Under Wraps</h1><p class="lede">Almost there.</p>',1)}<main class="pad"><section class="card"><h2>Connect your database</h2><p>Open <b>config.js</b> in your GitHub repository and paste in your Supabase project URL and publishable key, then commit the change. The app will load a minute or two later.</p></section></main>`;return}
   if(!sb){app.innerHTML=`<div class="empty"><h2>Can’t connect</h2><p>Check your internet connection and reopen the app.</p></div>`;return}
   if(S.loading){app.innerHTML=`<div class="empty"><div class="spin"></div><p>${esc(S.err||'Unwrapping your gift list…')}</p></div>`;return}
   if(!uid){app.innerHTML=authView();return}
   if(S.famId&&!S.famLoaded){app.innerHTML=`<div class="empty"><div class="spin"></div><p>Unwrapping your gift list…</p></div>`;return}
   if(!S.fam){
-    app.innerHTML=`${HEAD('<h1>Under Wraps</h1><p class="lede">Gift planning for families, kept under wraps.</p>')}<main class="pad">${startForms()}<p class="muted">Signed in as ${esc(S.email)} · <button class="link" data-act="signout">Sign out</button></p></main>`;return}
+    app.innerHTML=`${HEAD('<h1>Under Wraps</h1><p class="lede">Gift planning for families, kept under wraps.</p>',1)}<main class="pad">${startForms()}<p class="muted">Signed in as ${esc(S.email)} · <button class="link" data-act="signout">Sign out</button></p></main>`;return}
   const m=me(),vis=visible(),others=S.people.filter(p=>p.claimed_by!==uid);
   const bud=others.reduce((a,p)=>a+(+p.budget||0),0),sp=spent(vis);
   const view=S.tab==='people'?(S.person?personView():peopleView()):S.tab==='gifts'?giftsView():S.tab==='wishes'?wishesView():budgetView();
@@ -213,7 +214,7 @@ function render(){
 
 function authView(){
   const isIn=S.authMode==='in';
-  return `${HEAD('<h1>Under Wraps</h1><p class="lede">Gift planning for families, kept under wraps.</p>')}
+  return `${HEAD('<h1>Under Wraps</h1><p class="lede">Gift planning for families, kept under wraps.</p>',1)}
   <main class="pad"><section class="card"><h2>${isIn?'Sign in':'Create your account'}</h2>
   <form data-form="auth" class="stackf">
     <label>Email<input name="email" type="email" required autocomplete="email" inputmode="email" autocapitalize="off"></label>
